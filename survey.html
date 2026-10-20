@@ -294,6 +294,13 @@ input[type=text]:focus,textarea:focus{border-color:#9a9aa2}
 
   // 진행 막대
   var KEYS = Object.keys(ENTRY), prog = document.getElementById('prog');
+  // 아이폰에서 키보드가 올라오면 화면이 위로 밀리면서 상단 고정 막대도 같이 가려져요.
+  // 실제로 보이는 화면(visualViewport) 꼭대기에 막대를 다시 붙여 줘요.
+  var vv = window.visualViewport;
+  if (vv) {
+    var pin = function(){ prog.style.top = Math.max(0, vv.offsetTop) + 'px'; };
+    vv.addEventListener('resize', pin); vv.addEventListener('scroll', pin);
+  }
   var MSG = ['천천히 답해 주세요','좋아요, 시작했어요','순조로워요','절반 가까이 왔어요','벌써 절반!','거의 다 왔어요','조금만 더요','마지막 하나!','다 채웠어요, 고맙습니다'];
   document.getElementById('pt').textContent = KEYS.length;
   function progress(){
